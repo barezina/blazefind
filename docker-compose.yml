@@ -1,0 +1,36 @@
+version: "3.5"
+services:
+  nginx-api:
+    build:
+        dockerfile: app-nginx-api
+        context: .
+    volumes:
+    - ./api:/var/www/html
+    ports:
+    - "80"
+    links:
+    - php
+  php:
+    build:
+        dockerfile: app-php
+        context: .
+    volumes:
+    - ./api:/var/www/html
+    links:
+    - mysql
+  frontend:
+    build:
+        dockerfile: app-nginx-frontend
+        context: .
+    volumes:
+    - ./frontend:/var/www/html
+    ports:
+    - "80"
+  mysql:
+    image: mysql:8
+    ports:
+    - "3306"
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_DATABASE: laravel
+      MYSQL_ROOT_PASSWORD: secret
