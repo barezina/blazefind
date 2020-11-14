@@ -1,3 +1,0 @@
-FROM nginx:1.17
-COPY api-site.conf /etc/nginx/conf.d/default.conf
-COPY ./api /var/www/html
